@@ -51,3 +51,17 @@ class Quiz {
         this.scoreHistory.push(currentScore);
         }
 }
+
+class QuizApi {
+    constructor() {
+        this.BASE_URL = "https://opentdb.com/api.php?amount=10";
+    }
+    getItems() {
+        fetch(this.BASE_URL)
+            .then(res => res.json())
+            .then(data => console.log(data.results))
+    }
+}
+
+const newQuiz = new QuizApi;
+newQuiz.getItems();
