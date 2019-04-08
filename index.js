@@ -12,10 +12,10 @@ class Question {
         this.userAnswer = answer;
     } 
     answerStatus() {
-        if (userAnswer === correctAnswer) {
+        if (this.userAnswer === this.correctAnswer) {
             return 1;
         }
-        if (userAnswer === '') {
+        if (this.userAnswer === '') {
             return -1;
         }
         else {
@@ -47,10 +47,15 @@ class Quiz {
         if (this.unasked.length > 0) {
             this.asked.push(this.activeQuestion);
         }
-        let activeQuestion = new Question();
-        let currentScore = activeQuestion.answerStatus();
-        score += currentScore;
+        let userAnswer = prompt('Please enter your answer');
+        console.log(userAnswer);
+        this.activeQuestion.submitAnswer(userAnswer);
+        let currentScore = this.activeQuestion.answerStatus();
+        this.score += currentScore;
+        console.log(this.score);
         this.scoreHistory.push(currentScore);
+        this.nextQuestion();
+        console.log(this.activeQuestion);
         }
 }
 
