@@ -35,6 +35,10 @@ class Quiz {
     }
     start() {
         this.active = true;
+        const startQuiz = new Quiz();
+        const quizApi = new QuizApi();
+        newQuiz.getItems()
+            .then(results => results = )
     }
 
     nextQuestion() {
@@ -57,11 +61,11 @@ class QuizApi {
         this.BASE_URL = "https://opentdb.com/api.php?amount=10";
     }
     getItems() {
-        fetch(this.BASE_URL)
+        return fetch(this.BASE_URL)
             .then(res => res.json())
-            .then(data => console.log(data.results))
+            .then(data => data.results.map(item => ({question: item.question, correctAnswer: item.correct_answer, incorrectAnswers: item.incorrect_answers})))
     }
 }
 
 const newQuiz = new QuizApi;
-newQuiz.getItems();
+console.log(newQuiz.getItems());
