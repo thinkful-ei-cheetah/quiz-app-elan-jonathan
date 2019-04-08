@@ -1,11 +1,11 @@
 'use strict';
 
 class Question {
-    constructor(text, answers, correctAnswer, userAnswer) {
-        text,
-        answers,
-        correctAnswer,
-        userAnswer
+    constructor(text, answers, correctAnswer) {
+        this.text=text;
+        this.answers = answers;
+        this.correctAnswer = correctAnswer;
+        this.userAnswer ='';
     }
 
     submitAnswer(answer) {
@@ -25,20 +25,18 @@ class Question {
 }
 
 class Quiz {
-    constructor(unasked, asked, activeQuestion, score, scoreHistory, active) {
-        unasked,
-        asked,
-        activeQuestion,
-        score,
-        scoreHistory,
-        active
+    constructor() {
+        this.unasked=[];
+        this.asked=[];
+        this.activeQuestion={};
+        this.score=0;
+        this.scoreHistory=[];
+        this.active=false;
     }
     start() {
         this.active = true;
-        const startQuiz = new Quiz();
         const quizApi = new QuizApi();
-        newQuiz.getItems()
-            .then(results => results = )
+        quizApi.getItems(this);
     }
 
     nextQuestion() {
@@ -60,12 +58,18 @@ class QuizApi {
     constructor() {
         this.BASE_URL = "https://opentdb.com/api.php?amount=10";
     }
-    getItems() {
+
+    getItems(passedQuiz) {
         return fetch(this.BASE_URL)
             .then(res => res.json())
-            .then(data => data.results.map(item => ({question: item.question, correctAnswer: item.correct_answer, incorrectAnswers: item.incorrect_answers})))
-    }
+            .then(data => data.results.forEach(item => {       
+                item.incorrect_answers.push(item.correct_answer);
+                passedQuiz.unasked.push(new Question(item.question, item.incorrect_answers, item.correct_answer));
+                })
+                  
+            )}
 }
 
-const newQuiz = new QuizApi;
-console.log(newQuiz.getItems());
+const newQuiz = new Quiz;
+newQuiz.start();
+console.log(newQuiz)
